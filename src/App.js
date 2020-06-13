@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import ReactMapGL from 'react-map-gl';
+import ReactMapGL, { Marker } from 'react-map-gl';
 
 import './App.css';
 
@@ -20,7 +20,8 @@ function App() {
     async function fetchData() {
       const response = await fetch(API_URL);
       const json = await response.json();
-      setGeojsonData(json)
+      console.log(json.features)
+      setGeojsonData(json['features'])
     }
 
     fetchData()
@@ -35,7 +36,13 @@ function App() {
         onViewportChange={viewport => setViewport(viewport)}
         mapStyle="mapbox://styles/vijaygenius123/ckbduwuqw2k9v1irnr4p9evtu"
       >
-
+        {geojsonData.map(obj =>
+          <Marker key={obj.id}
+            longitude={obj.geometry.coordinates[0]}
+            latitude={obj.geometry.coordinates[1]}>
+            <img className="marker" src="https://storage.needpix.com/rsynced_images/google-309740_1280.png">
+            </img>
+          </Marker>)}
       </ReactMapGL>
 
     </div>
