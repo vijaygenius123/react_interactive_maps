@@ -4,7 +4,7 @@ import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 
 import './App.css';
 
-const API_URL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson'
+const API_URL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson'
 
 function App() {
   const [viewport, setViewport] = useState({
@@ -45,7 +45,7 @@ function App() {
         {...viewport}
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         onViewportChange={viewport => setViewport(viewport)}
-        mapStyle="mapbox://styles/vijaygenius123/ckbduwuqw2k9v1irnr4p9evtu"
+        mapStyle="mapbox://styles/vijaygenius123/ckbet884i3h1n1ild7sa218oj"
       >
         {geojsonData.map(obj =>
           <Marker key={obj.id}
