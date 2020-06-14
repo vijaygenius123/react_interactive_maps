@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import ReactMapGL, { Marker } from 'react-map-gl';
+import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 
 import './App.css';
 
@@ -15,6 +15,8 @@ function App() {
     width: "100vw",
   })
   const [geojsonData, setGeojsonData] = useState([])
+  const [earthquake, setEarthquake] = useState(null)
+
   useEffect(() => {
 
     async function fetchData() {
@@ -40,9 +42,21 @@ function App() {
           <Marker key={obj.id}
             longitude={obj.geometry.coordinates[0]}
             latitude={obj.geometry.coordinates[1]}>
-            <img className="marker" src="https://storage.needpix.com/rsynced_images/google-309740_1280.png">
+            <img
+              className="marker"
+              onClick={() => setEarthquake(obj)}
+              src="https://storage.needpix.com/rsynced_images/google-309740_1280.png">
             </img>
           </Marker>)}
+        {earthquake ? (
+          <Popup
+            longitude={earthquake.geometry.coordinates[0]}
+            latitude={earthquake.geometry.coordinates[1]}>
+            <div>
+              {earthquake.properties.title}
+            </div>
+          </Popup>
+        ) : null}
       </ReactMapGL>
 
     </div>
