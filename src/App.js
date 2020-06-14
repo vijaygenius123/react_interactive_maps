@@ -19,6 +19,11 @@ function App() {
 
   useEffect(() => {
 
+    const escapeListener = e => {
+      if (e.key === "Escape") {
+        setEarthquake(null)
+      }
+    }
     async function fetchData() {
       const response = await fetch(API_URL);
       const json = await response.json();
@@ -27,7 +32,11 @@ function App() {
     }
 
     fetchData()
+    window.addEventListener('keyup', escapeListener)
 
+    return () => {
+      window.removeEventListener('keyup', escapeListener)
+    }
   }, [])
 
   return (
@@ -45,13 +54,15 @@ function App() {
             <img
               className="marker"
               onClick={() => setEarthquake(obj)}
+              alt={obj.properties.title}
               src="https://storage.needpix.com/rsynced_images/google-309740_1280.png">
             </img>
           </Marker>)}
         {earthquake ? (
           <Popup
             longitude={earthquake.geometry.coordinates[0]}
-            latitude={earthquake.geometry.coordinates[1]}>
+            latitude={earthquake.geometry.coordinates[1]}
+            onClose={() => setEarthquake(null)}>
             <div>
               {earthquake.properties.title}
             </div>
